@@ -1,5 +1,7 @@
 package com.ventas_bazar.ventasbazar.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +40,18 @@ public class VentaService implements IVentaService{
     public Venta findById(Long id) {
         return ventaRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public List<Venta> findByFechaVenta(LocalDate fecha) {
+        List<Venta> lista_devolver =  new ArrayList<>();
+        for (Venta venta : this.findAll()) {
+            if (venta.getFecha_venta() == fecha) {
+                lista_devolver.add(venta);
+            }
+        }
+        return  lista_devolver;
+    }
+
+    
     
 }
