@@ -1,6 +1,7 @@
 package com.ventas_bazar.ventasbazar.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +31,15 @@ public class VentaController {
     }
 
     @PostMapping("/venta/crear")
-    public String crearVenta(@RequestBody Venta venta) {
-        service.save(venta);
-        return "venta creado";
+    public ResponseEntity<?> crearVenta(@RequestBody Venta venta) {
+
+        try {
+            service.save(venta);
+            return ResponseEntity.ok("venta creado");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
     @PutMapping("/venta/editar/{id}")

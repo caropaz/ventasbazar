@@ -3,13 +3,7 @@ package com.ventas_bazar.ventasbazar.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,11 +16,16 @@ public class Venta {
     private Long codigo_venta;
     private LocalDate fecha_venta;
     private Double total;
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "venta_producto",
+            joinColumns = @JoinColumn(name = "codigo_venta"),
+            inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
     private List<Producto> listaProductos;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cliente_id_cliente", referencedColumnName = "id_cliente" )
-    Cliente cliente;
+    private Cliente cliente;
 
 
     public Venta() {

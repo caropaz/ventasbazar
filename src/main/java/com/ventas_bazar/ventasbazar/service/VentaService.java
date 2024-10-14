@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ventas_bazar.ventasbazar.model.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,16 @@ public class VentaService implements IVentaService{
 
     @Autowired
     private IVentaRepository ventaRepository;
+
+    @Autowired
+    private ProductoService productoService;
+
     @Override
     public void save(Venta v) {
+
+        for(Producto producto: v.getListaProductos()){
+            productoService.verificarActualizarStock(producto);
+        }
         ventaRepository.save(v);
     }
 

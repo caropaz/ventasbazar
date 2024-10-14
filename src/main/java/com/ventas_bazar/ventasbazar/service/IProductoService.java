@@ -15,4 +15,6 @@ public interface IProductoService {
 
     Producto findById(Long id);
 
+    Integer cantidadProductosDisponible(Long codigo_producto);
+
 }

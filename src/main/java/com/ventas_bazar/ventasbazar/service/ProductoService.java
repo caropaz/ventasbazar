@@ -37,5 +37,18 @@ public class ProductoService implements IProductoService{
     public Producto findById(Long id) {
         return repository.findById(id).orElse(null);
     }
-    
+
+    @Override
+    public Integer cantidadProductosDisponible(Long codigo_producto) {
+        return this.findById(codigo_producto).getCantidad_disponible();
+    }
+
+    public void verificarActualizarStock(Producto producto) {
+        Producto productoDB = this.findById(producto.getCodigo_producto());
+        if (productoDB.getCantidad_disponible()==0) {
+            throw new IllegalArgumentException("No hay stock disponible");
+        }
+        int cantidad_disponible_nueva = productoDB.getCantidad_disponible() - 1;
+        productoDB.setCantidad_disponible(cantidad_disponible_nueva);
+    }
 }
