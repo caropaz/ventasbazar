@@ -52,9 +52,10 @@ public class VentaService implements IVentaService{
 
     @Override
     public List<Venta> findByFechaVenta(LocalDate fecha) {
-        List<Venta> lista_devolver =  new ArrayList<>();
-        for (Venta venta : this.findAll()) {
-            if (venta.getFecha_venta() == fecha) {
+        List<Venta> lista_db=  ventaRepository.findAll();
+        List<Venta> lista_devolver = new ArrayList<>();
+        for (Venta venta : lista_db) {
+            if (venta.getFecha_venta().isEqual(fecha)) {
                 lista_devolver.add(venta);
             }
         }
