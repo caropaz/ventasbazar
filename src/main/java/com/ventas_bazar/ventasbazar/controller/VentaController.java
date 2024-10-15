@@ -1,6 +1,8 @@
 package com.ventas_bazar.ventasbazar.controller;
 
+import com.ventas_bazar.ventasbazar.dto.Venta_PorFecha_DTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,12 +12,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ventas_bazar.ventasbazar.dto.VentaDTO;
+import com.ventas_bazar.ventasbazar.dto.Mayoria_Venta_ProductoDTO;
 import com.ventas_bazar.ventasbazar.model.Producto;
 import com.ventas_bazar.ventasbazar.model.Venta;
 import com.ventas_bazar.ventasbazar.service.IVentaService;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -65,20 +68,24 @@ public class VentaController {
         return service.findById(codigo_venta).getListaProductos();
     }
 
-    @GetMapping("/ventas/{fecha_venta}")
-    public VentaDTO getVentasPorFecha(@RequestParam LocalDate fecha_venta) {
-        List<Venta> lista_encontrada = service.findByFechaVenta(fecha_venta);
+    @GetMapping("/venta/fecha/{fecha_venta}")
+    public Venta_PorFecha_DTO getVentasPorFecha(@PathVariable String fecha_venta) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDate fecha_parse = LocalDate.parse(fecha_venta, formatter);
+        List<Venta> lista_encontrada = service.findByFechaVenta(fecha_parse);
         Double monto_total = 0.0;
         int cantidad_ventas = 0;
         for (Venta venta : lista_encontrada) {
             monto_total += venta.getTotal();
             cantidad_ventas++;
         }
-        return new VentaDTO(monto_total, cantidad_ventas);
+
+
+        return new Venta_PorFecha_DTO(monto_total, cantidad_ventas) ;
     }
 
-    @GetMapping("/ventas/mayor_venta")
-    public VentaDTO getVentaConMasMonto() {
+    @GetMapping("/venta/mayor_venta")
+    public Mayoria_Venta_ProductoDTO getVentaConMasMonto() {
         Venta venta_mas_valor_monto = null;
         double monto_mayor = 0.0;
         for (Venta v: service.findAll()) {
@@ -87,7 +94,7 @@ public class VentaController {
             }
         }
         return
-            new VentaDTO(venta_mas_valor_monto.getCodigo_venta(),
+            new Mayoria_Venta_ProductoDTO(venta_mas_valor_monto.getCodigo_venta(),
                         venta_mas_valor_monto.getTotal(), 
                         venta_mas_valor_monto.getListaProductos().size(),
                         venta_mas_valor_monto.getCliente().getNombre(),
