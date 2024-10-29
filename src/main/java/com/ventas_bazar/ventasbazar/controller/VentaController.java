@@ -1,6 +1,7 @@
 package com.ventas_bazar.ventasbazar.controller;
 
 import com.ventas_bazar.ventasbazar.dto.Venta_PorFecha_DTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class VentaController {
     }
 
     @PostMapping("/venta/crear")
-    public ResponseEntity<?> crearVenta(@RequestBody Venta venta) {
+    public ResponseEntity<?> crearVenta(@Valid @RequestBody Venta venta) {
 
         try {
             service.save(venta);
@@ -46,7 +47,7 @@ public class VentaController {
     }
 
     @PutMapping("/venta/editar/{id}")
-    public String editarVenta(@PathVariable Long id, @RequestBody Venta venta) {
+    public String editarVenta(@Valid @PathVariable Long id, @RequestBody Venta venta) {
         service.save(venta);
         return "venta modificado";
     }

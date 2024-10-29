@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +16,10 @@ public class Venta {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long codigo_venta;
+    @NotNull
     private LocalDate fecha_venta;
+    @Positive
+    @NotNull
     private Double total;
     @ManyToMany
     @JoinTable(

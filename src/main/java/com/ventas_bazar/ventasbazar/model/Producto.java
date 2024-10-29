@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +15,15 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long codigo_producto;
+    @NotBlank
     private String nombre;
+    @NotBlank
     private String marca;
+    @Positive
+    @NotNull
     private Double costo;
+    @PositiveOrZero
+    @NotNull
     private Integer cantidad_disponible;
 
     public Producto() {

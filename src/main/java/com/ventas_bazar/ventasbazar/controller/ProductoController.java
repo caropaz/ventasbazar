@@ -1,5 +1,6 @@
 package com.ventas_bazar.ventasbazar.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ventas_bazar.ventasbazar.model.Producto;
@@ -27,13 +28,13 @@ public class ProductoController {
     }
 
     @PostMapping("/producto/crear")
-    public String crearProducto(@RequestBody Producto producto) {
+    public String crearProducto(@Valid  @RequestBody Producto producto) {
         service.save(producto);
         return "producto creado";
     }
 
     @PutMapping("/producto/editar/{id}")
-    public String editarProducto(@PathVariable Long id, @RequestBody Producto producto) {
+    public String editarProducto(@Valid @PathVariable Long id, @RequestBody Producto producto) {
         service.save(producto);
         return "producto modificado";
     }
@@ -58,6 +59,7 @@ public class ProductoController {
             }
         }
         return resultado;
+
     }
 
     

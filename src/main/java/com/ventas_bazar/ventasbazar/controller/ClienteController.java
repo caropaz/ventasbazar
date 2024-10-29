@@ -1,6 +1,7 @@
 package com.ventas_bazar.ventasbazar.controller;
 
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +27,13 @@ public class ClienteController {
     }
 
     @PostMapping("/cliente/crear")
-    public String crearCliente(@RequestBody Cliente cliente) {
+    public String crearCliente(@Valid @RequestBody Cliente cliente) {
         service.save(cliente);
         return "cliente creado";
     }
 
     @PutMapping("/cliente/editar/{id}")
-    public String editarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
+    public String editarCliente(@Valid @PathVariable Long id, @RequestBody Cliente cliente) {
         service.save(cliente);
         return "cliente modificado";
     }
